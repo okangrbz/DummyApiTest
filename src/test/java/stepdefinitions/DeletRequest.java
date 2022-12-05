@@ -1,48 +1,53 @@
 package stepdefinitions;
 
-import BaseUrl.DumyRestApi;
+import io.cucumber.java.en.*;
+import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.junit.Test;
+import utilities.ConfigReader;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 
-public class DeletRequest extends DumyRestApi {
-    /*
-    URL: https://dummy.restapiexample.com/api/v1/delete/2
-   HTTP Request Method: DELETE Request
-   Test Case: Type by using Gherkin Language
-   Assert:     i) Status code is 200
-           ii) "status" is "success"
-          iii) "data" is "2"
-           iv) "message" is "Successfully! Record has been deleted"
- */
-	/*
-	Given
-		https://dummy.restapiexample.com/api/v1/delete/2
-	When
-		User send request for delet
-	Then
-		Status code is 200
-	And
-		"status" is "success"
-	And
-		"data" is "2"
-	And
-		"message" is "Successfully! Record has been deleted"
-	 */
+public class DeletRequest {
 
-    @Test
-    public void delet01() {
+    private RequestSpecification spec;
+    private Response response;
 
-        spec.pathParams("pp1","delete","pp2",2);
+    @Given("I set DELETE employee service api endpoints")
+    public void i_set_delete_employee_service_api_endpoints() {
+        spec=new RequestSpecBuilder().setBaseUri(ConfigReader.getProperty("baseUrl")).build();
+        spec.pathParams("pp1","delete","pp2",7);
+    }
 
-        Response response=given().spec(spec).when().delete("/{pp1}/{pp2}");
-        response.then().assertThat().statusCode(200).body("status",equalTo("success"),"data",
-                equalTo("2"),"message",equalTo("Successfully! Record has been deleted"));
+    @When("I send DELETE HTTP request")
+    public void i_send_delete_http_request() {
+        response=given().spec(spec).when().delete("/{pp1}/{pp2}");
+    }
 
-
+    @Then("I receive valid HTTP response code {int}")
+    public void i_receive_valid_http_response_code(Integer status) {
+        response.then().assertThat().statusCode(status);
 
     }
+
+    @And("data is {string}")
+    public void dataIs(String data) {
+
+        response.then().assertThat().body("data",
+                equalTo(data));
+    }
+
+    @And("status is success")
+    public void statusIsSuccess() {
+        response.then().assertThat().body("status",equalTo("success"));
+    }
+
+    @And("message is Successfully! Record has been deleted")
+    public void messageIsSuccessfullyRecordHasBeenDeleted() {
+        response.then().assertThat().body("message",equalTo("Successfully! Record has been deleted"));
+    }
+
 
 }

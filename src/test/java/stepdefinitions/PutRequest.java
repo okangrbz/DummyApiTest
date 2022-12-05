@@ -1,93 +1,61 @@
 package stepdefinitions;
 
-import BaseUrl.DumyRestApi;
+import io.cucumber.java.en.*;
+import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import org.junit.Test;
-import pojos.DataDummy;
-import pojos.DummyBody;
+import io.restassured.specification.RequestSpecification;
+import pojos.PostPutRequestBody.BodyDummy;
+import pojos.PostPutRequestBody.DummyData;
+import utilities.ConfigReader;
 import utilities.JsonUtils;
-
 import static io.restassured.RestAssured.given;
 import static org.junit.Assert.assertEquals;
 
-public class PutRequest extends DumyRestApi {
+public class PutRequest {
 
-    /*
-        URL: https://dummy.restapiexample.com/api/v1/update/21
-       HTTP Request Method: PUT Request
-       Request body: {
-                        "employee_name": "Tom Hanks",
-                        "employee_salary": 111111,
-                        "employee_age": 23,
-                        "profile_image": "Perfect image"
-                     }
-       Test Case: Type by using Gherkin Language
-       Assert:
-                i) Status code is 200
-                ii) Response body should be like the following
-                    {
-                        "status": "success",
-                        "data": {
-                            "employee_name": "Tom Hanks",
-                            "employee_salary": 111111,
-                            "employee_age": 23,
-                            "profile_image": "Perfect image"
-                        },
-                        "message": "Successfully! Record has been updated."
-                    }
-     */
-	/*
-	Gherkil Language
+    private RequestSpecification spec;
+    private Response response;
+    private DummyData datadummy;
+    private BodyDummy expectedData;
+    private  BodyDummy actualdata;
 
-	Given
-		https://dummy.restapiexample.com/api/v1/update/21
-	And
-		Request body: {
-                        "employee_name": "Baba Bura Gel",
-                        "employee_salary": 5454554,
-                        "employee_age": 100,
-                        "profile_image": "Null image"
-                     }
-    When
-    	User send Put request
-    Then
-		Status code is 200
-	And
-		Response body should be like the following
-                    {
-                        "status": "success",
-                        "data": {
-                            "employee_name": "Tom Hanks",
-                            "employee_salary": 111111,
-                            "employee_age": 23,
-                            "profile_image": "Perfect image"
-                        },
-                        "message": "Successfully! Record has been updated."
-                    }
-	 */
 
-    @Test
-    public void put01() {
+    @Given("I set PUT employee service api endpoints")
+    public void i_set_put_employee_service_api_endpoints() {
+        spec=new RequestSpecBuilder().setBaseUri(ConfigReader.getProperty("baseUrl")).build();
         spec.pathParams("pp1","update","pp2",21);
 
-        DataDummy datadummy=new DataDummy("Baba Bura Gel",5454554,100,"Null image");
-        DummyBody expectedData=new DummyBody("success",datadummy,"Successfully! Record has been updated.");
-
-        Response response = given().spec(spec).contentType(ContentType.JSON).body(datadummy).when().put("/{pp1}/{pp2}");
-
-        DummyBody actualdata= JsonUtils.convertJsonToJavaObject(response.asString(),DummyBody.class);
-
-        assertEquals(200,response.getStatusCode());
-        assertEquals(expectedData.getStatus(),actualdata.getStatus());
-        assertEquals(expectedData.getData().getProfileImage(),actualdata.getData().getProfileImage());
-        assertEquals(expectedData.getData().getEmployeeAge(),actualdata.getData().getEmployeeAge());
-        assertEquals(expectedData.getData().getEmployeeSalary(),actualdata.getData().getEmployeeSalary());
-        assertEquals(expectedData.getData().getEmployeeName(),actualdata.getData().getEmployeeName());
-        assertEquals(expectedData.getMessage(),actualdata.getMessage());
-
-
+    }
+    @When("I set Update request Body")
+    public void i_set_update_request_body() {
+        datadummy=new DummyData("Olan","15400","57");
+       expectedData=new BodyDummy("success",datadummy,"Successfully! Record has been updated.");
 
     }
+    @When("Send PUT HTTP request")
+    public void send_put_http_request() {
+        response = given().spec(spec).contentType(ContentType.JSON).body(datadummy).when().put("/{pp1}/{pp2}");
+
+        response.prettyPrint();
+    }
+    @Then("I receive valid HTTP response code {int} for put Request")
+    public void iReceiveValidHTTPResponseCodeForPutRequest(int status) {
+        assertEquals(status,response.getStatusCode());
+
+    }
+
+    @Then("Response body should be like the following")
+    public void response_body_should_be_like_the_following() {
+
+        actualdata= JsonUtils.convertJsonToJavaObject(response.asString(),BodyDummy.class);
+        assertEquals(expectedData.getData().getAge(),actualdata.getData().getAge());
+        assertEquals(expectedData.getData().getName(),actualdata.getData().getName());
+        assertEquals(expectedData.getData().getSalary(),actualdata.getData().getSalary());
+        assertEquals(expectedData.getStatus(),actualdata.getStatus());
+
+    }
+
+
 
 }

@@ -17,10 +17,21 @@ public class DataDummy {
 	@JsonProperty("profile_image")
 	private String profileImage;
 
-
+	/**
+	 * No args constructor for use in serialization
+	 *
+	 */
 	public DataDummy() {
 	}
 
+	/*
+	 *
+	 * @param employeeName
+	 * @param employeeAge
+	 * @param id
+	 * @param profileImage
+	 * @param employeeSalary
+	 */
 	public DataDummy(String employeeName, Integer employeeSalary, Integer employeeAge, String profileImage) {
 		super();
 		this.id = id;

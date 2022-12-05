@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<testsuite errors="0" failures="0" name="io.cucumber.core.plugin.JUnitFormatter" skipped="0" tests="1" time="5.136">
+<testcase classname="Test CRUD methods in Sample Employee REST API testing" name="TC02 Update Employee record" time="4.695">
+<system-out><![CDATA[Given I set PUT employee service api endpoints..............................passed
+When I set Update request Body..............................................passed
+And Send PUT HTTP request...................................................passed
+Then I receive valid HTTP response code 200 for put Request.................passed
+And Response body should be like the following..............................passed
+]]></system-out>
+</testcase>
+</testsuite>

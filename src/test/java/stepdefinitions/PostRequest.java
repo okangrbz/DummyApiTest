@@ -30,7 +30,7 @@ public class PostRequest {
     }
     @When("I set request header")
     public void i_set_request_header() {
-        datadummy=new DummyData("Halo","18000","70");
+        datadummy=new DummyData("Peles","18000","70");
         expectedData=new BodyDummy("success",datadummy,"Successfully! Record has been added.");
 
     }

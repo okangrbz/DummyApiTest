@@ -18,7 +18,7 @@ public class DeletRequest {
     @Given("I set DELETE employee service api endpoints")
     public void i_set_delete_employee_service_api_endpoints() {
         spec=new RequestSpecBuilder().setBaseUri(ConfigReader.getProperty("baseUrl")).build();
-        spec.pathParams("pp1","delete","pp2",7);
+        spec.pathParams("pp1","delete","pp2",11);
     }
 
     @When("I send DELETE HTTP request")

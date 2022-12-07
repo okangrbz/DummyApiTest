@@ -1,4 +1,5 @@
 
+@Crud
 Feature: Test CRUD methods in Sample Employee REST API testing
 
   @Post
@@ -32,6 +33,6 @@ Feature: Test CRUD methods in Sample Employee REST API testing
     Given I set DELETE employee service api endpoints
     When I send DELETE HTTP request
     Then I receive valid HTTP response code 200
-    And data is "7"
+    And data is "10"
     And status is success
     And message is Successfully! Record has been deleted

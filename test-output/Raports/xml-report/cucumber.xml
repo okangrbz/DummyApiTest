@@ -1,11 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<testsuite errors="0" failures="0" name="io.cucumber.core.plugin.JUnitFormatter" skipped="0" tests="1" time="5.136">
-<testcase classname="Test CRUD methods in Sample Employee REST API testing" name="TC02 Update Employee record" time="4.695">
+<testsuite errors="0" failures="0" name="io.cucumber.core.plugin.JUnitFormatter" skipped="0" tests="4" time="8.879">
+<testcase classname="Test CRUD methods in Sample Employee REST API testing" name="TC01 Add Employee record" time="4.482">
+<system-out><![CDATA[Given I set POST employee service api endpoints.............................passed
+When I set request header...................................................passed
+And Send a POST HTTP request................................................passed
+Then I receive valid Response...............................................passed
+And Response body for POST request should be like the following.............passed
+]]></system-out>
+</testcase>
+<testcase classname="Test CRUD methods in Sample Employee REST API testing" name="TC02 Update Employee record" time="1.254">
 <system-out><![CDATA[Given I set PUT employee service api endpoints..............................passed
 When I set Update request Body..............................................passed
 And Send PUT HTTP request...................................................passed
 Then I receive valid HTTP response code 200 for put Request.................passed
 And Response body should be like the following..............................passed
+]]></system-out>
+</testcase>
+<testcase classname="Test CRUD methods in Sample Employee REST API testing" name="TC03 Get Employee record" time="1.661">
+<system-out><![CDATA[Given I set GET employee service api endpoints..............................passed
+When Send GET HTTP request..................................................passed
+Then I receive valid HTTP response code 200 for Get Request.................passed
+And There are 24 employees..................................................passed
+And "Tiger Nixon" and "Tatyana Fitzpatrick" are among the employees.........passed
+And The greatest age is 66..................................................passed
+And Total salary of all employees is 6644770................................passed
+]]></system-out>
+</testcase>
+<testcase classname="Test CRUD methods in Sample Employee REST API testing" name="TC04 Delete Employee record" time="0.886">
+<system-out><![CDATA[Given I set DELETE employee service api endpoints...........................passed
+When I send DELETE HTTP request.............................................passed
+Then I receive valid HTTP response code 200.................................passed
+And data is "10"............................................................passed
+And status is success.......................................................passed
+And message is Successfully! Record has been deleted........................passed
 ]]></system-out>
 </testcase>
 </testsuite>
